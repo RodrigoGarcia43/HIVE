@@ -1,6 +1,6 @@
 :- use_module(library(pce)).
 :- use_module(library(lists)).
-:- use_module('./src/auxiliar_methods', [
+:- use_module('./src/auxiliar_extras', [
     list_add/3,
     list_remove/3,
     list_contains/2,
@@ -43,7 +43,7 @@
 :- use_module('./src/pillbug', [
     pillbug/3
     ]).
-:- use_module('./src/logic_methods', [
+:- use_module('./src/logic_extras', [
     try_add_free_position/6,
     try_jump_in_direction/7,
     get_occupied_positions/3,

@@ -1,4 +1,4 @@
-:- module(logic_methods, [
+:- module(logic_extras, [
     try_add_free_position/6,
     try_jump_in_direction/7,
     get_occupied_positions/3,
@@ -11,6 +11,7 @@
     get_stack/2
     ]).
 
+% Tries to update the list Free with [X,Y] if posible, and return it in NewFree
 try_add_free_position([X,Y], Free, Occupied, NewFree, [XObs1, YObs1], [XObs2, YObs2]):-
     (\+ list_contains([X,Y], Occupied),
     \+ list_contains([X,Y], Free),
@@ -19,6 +20,7 @@ try_add_free_position([X,Y], Free, Occupied, NewFree, [XObs1, YObs1], [XObs2, YO
     list_add([X,Y], Free, NewFree));
     NewFree = Free.
 
+% grasshopper predicated to jump over occupied positions
 try_jump_in_direction([X,Y], Free, Occupied, NewFree, DirX, DirY, FirstMove):-
     (list_contains([X,Y], Occupied), 
     NewX is X + DirX, NewY is Y + DirY,
@@ -31,7 +33,7 @@ try_jump_in_direction([X,Y], Free, Occupied, NewFree, DirX, DirY, FirstMove):-
         NewFree = Free
     ).
 
-
+% Obtains the occupied positions from the list of the bugs on the board
 get_occupied_positions([], Occupied, Occupied).
 get_occupied_positions([[Bug,_]|T], Occupied, UpdatedOccupied):-
     get(Bug, position, Position),
@@ -42,11 +44,12 @@ get_occupied_positions([[Bug,_]|T], Occupied, UpdatedOccupied):-
 
     get_occupied_positions(T, NewOccupied, UpdatedOccupied).
 
+% Cleans the hexagons list
 free_hexagons([]).
 free_hexagons([X|T]):-
     free(X), free_hexagons(T).
 
-
+% Checks if after moving a bug, the hive still conected
 check_conex([], _ , []).
 check_conex([[X,Y]|T], Graph, UpdatedPositions):-
     
@@ -67,6 +70,7 @@ check_conex([[X,Y]|T], Graph, UpdatedPositions):-
     ).
 
 
+% Simple DFS
 dfs(X,Y, Graph, Walked, Count, OutWalked, OutCount):-
     (
         (\+ list_contains([X,Y], Graph); list_contains([X,Y], Walked)),
@@ -91,11 +95,12 @@ dfs(X,Y, Graph, Walked, Count, OutWalked, OutCount):-
     dfs(X4,Y4, Graph, Walked4, Count4, Walked5, Count5),
     dfs(X5,Y5, Graph, Walked5, Count5, OutWalked, OutCount).
     
-    
+% Finds the new items added to a list in a recursive iteration
 find_updates(L, [], L).
 find_updates([_|T1], [_|T2], R):-    
     find_updates(T1,T2,R).
 
+% Obteins the bug that is on board in the given position
 get_bug_from_position([X, Y], [[B, Color]|Bugs], Result):-
     get(B, position, Pos),
     get(Pos, x, X_), BugX is X_ -20,
@@ -106,6 +111,8 @@ get_bug_from_position([X, Y], [[B, Color]|Bugs], Result):-
         get_bug_from_position([X,Y],Bugs, Result)
     ).
 
+% Checks if the given bug has another bug in his Stack
+% If the bug is not beetle or mosquito, return 0
 check_stack(@black_beetle_1, C):-
     nb_getval(bb1, Stack), list_length(Stack, C).
 check_stack(@black_beetle_2, C):-

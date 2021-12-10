@@ -102,33 +102,30 @@ get_max([[B,X,Y, Score]|Pos], PrevMax, PrevBest, Max, Best):-
     (Score>=PrevMax, get_max(Pos,Score,[B,X,Y],Max,Best));
     get_max(Pos,PrevMax,PrevBest,Max,Best).
 
+% those predicates show on the board the movement options of the 
+% bug selected for the IA
 ia_fill_with_gray(Bug, 'queen', Color):-
     queen_obtain_posible_moves(Bug, Positions),
     fill_with_gray(Positions, Bug, Color),
-    % flush_output,
     sleep(1).
 
 ia_fill_with_gray(Bug, 'ant', Color):-
     ant_obtain_posible_moves(Bug, Positions),
     fill_with_gray(Positions, Bug, Color),
-    % flush_output,
     sleep(1).
 
 ia_fill_with_gray(Bug, 'beetle', Color):-
     beetle_obtain_posible_moves(Bug, Positions),
     fill_with_gray(Positions, Bug, Color),
-    % flush_output,
     sleep(1).
 
 ia_fill_with_gray(Bug, 'grasshopper', Color):-
     grasshopper_obtain_posible_moves(Bug, Positions),
     fill_with_gray(Positions, Bug, Color),
-    % flush_output,
     sleep(1).
 
 ia_fill_with_gray(Bug, 'spider', Color):-
     spider_obtain_posible_moves(Bug, Positions),
     fill_with_gray(Positions, Bug, Color),
-    % flush_output,
     sleep(1).
 

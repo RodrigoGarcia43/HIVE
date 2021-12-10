@@ -1,4 +1,4 @@
-:- module(auxiliar_methods, [
+:- module(auxiliar_extras, [
     list_add/3,
     list_remove/3,
     list_contains/2,
